@@ -68,12 +68,15 @@ class WhoisEntry(object):
         if whois_regex:
             values = []
             for value in re.findall(whois_regex, self.text, re.IGNORECASE):
-                if isinstance(value, basestring):
+                #if isinstance(value, basestring):
+                if attr.find('date'):
                     # try casting to date format
                     value = cast_date(value.strip())
                 values.append(value)
             if len(values) == 1:
                 values = values[0]
+            else:
+                values = list(set(values))
             setattr(self, attr, values)
             return getattr(self, attr)
         else:
